@@ -1,0 +1,11 @@
+﻿@using Scheduler.EmailSender.Resources
+
+@model Scheduler.EmailSender.Templates.ViewModels.TestEmailViewModel
+
+<strong>@EmailLabels.TestEmailSubject</strong>
+<p>
+    Witaj @Model.RecipientName.
+</p>
+<p>
+    <span class="glyphicon glyphicon-time"></span> @Model.CreationDate.ToString("yyyy-MM-dd HH:mm ")
+</p>

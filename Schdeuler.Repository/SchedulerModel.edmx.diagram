@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0034ec976c8b43e090491566e1a6634a" Name="Diagram1" DisplayType="true" ZoomLevel="108" >
+        <EntityTypeShape EntityType="SchedulerDBModel.DBVersion" Width="1.875" PointX="8.625" PointY="1" FillColor="255, 128, 0" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchedulerDBModel.ScheduledTaskState" Width="1.75" PointX="1.125" PointY="2.375" />
+        <EntityTypeShape EntityType="SchedulerDBModel.ScheduledTaskType" Width="1.75" PointX="1.125" PointY="4.25" />
+        <EntityTypeShape EntityType="SchedulerDBModel.User" Width="1.5" PointX="8.625" PointY="3.75" />
+        <EntityTypeShape EntityType="SchedulerDBModel.ScheduledTask" Width="2.375" PointX="3.5" PointY="2.75" />
+        <AssociationConnector Association="SchedulerDBModel.FK_ScheduledTask_ScheduledTaskState" />
+        <AssociationConnector Association="SchedulerDBModel.FK_ScheduledTask_ScheduledTaskType" />
+        <EntityTypeShape EntityType="SchedulerDBModel.AnalysedDirectory" Width="1.5" PointX="3" PointY="6.875" />
+        <EntityTypeShape EntityType="SchedulerDBModel.AnalyseType" Width="1.5" PointX="0.75" PointY="7.125" />
+        <AssociationConnector Association="SchedulerDBModel.FK_AnalizedDirectory_AnalizeType" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

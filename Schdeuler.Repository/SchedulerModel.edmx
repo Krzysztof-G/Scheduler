@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SchedulerDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AnalysedDirectory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Path" Type="varchar(max)" Nullable="false" />
+          <Property Name="AnalyseTypeId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AnalyseType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DBVersion">
+          <Key>
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Version" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UpgradeDate" Type="datetime" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ScheduledTasks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlanedExecutionDate" Type="datetime2" Precision="0" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime2" Precision="0" Nullable="false" />
+          <Property Name="RelatedObjectId" Type="bigint" />
+          <Property Name="ScheduledTaskTypeId" Type="bigint" Nullable="false" />
+          <Property Name="ScheduledTaskStateId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduledTaskStates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduledTaskTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AnalizedDirectory_AnalizeType">
+          <End Role="AnalyseType" Type="Self.AnalyseType" Multiplicity="1" />
+          <End Role="AnalysedDirectory" Type="Self.AnalysedDirectory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalyseType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AnalysedDirectory">
+              <PropertyRef Name="AnalyseTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledTask_ScheduledTaskState">
+          <End Role="ScheduledTaskStates" Type="Self.ScheduledTaskStates" Multiplicity="1" />
+          <End Role="ScheduledTasks" Type="Self.ScheduledTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledTaskStates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduledTasks">
+              <PropertyRef Name="ScheduledTaskStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledTask_ScheduledTaskType">
+          <End Role="ScheduledTaskTypes" Type="Self.ScheduledTaskTypes" Multiplicity="1" />
+          <End Role="ScheduledTasks" Type="Self.ScheduledTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledTaskTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduledTasks">
+              <PropertyRef Name="ScheduledTaskTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SchedulerDBModelStoreContainer">
+          <EntitySet Name="AnalysedDirectory" EntityType="Self.AnalysedDirectory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AnalyseType" EntityType="Self.AnalyseType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DBVersion" EntityType="Self.DBVersion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduledTasks" EntityType="Self.ScheduledTasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduledTaskStates" EntityType="Self.ScheduledTaskStates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduledTaskTypes" EntityType="Self.ScheduledTaskTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AnalizedDirectory_AnalizeType" Association="Self.FK_AnalizedDirectory_AnalizeType">
+            <End Role="AnalyseType" EntitySet="AnalyseType" />
+            <End Role="AnalysedDirectory" EntitySet="AnalysedDirectory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledTask_ScheduledTaskState" Association="Self.FK_ScheduledTask_ScheduledTaskState">
+            <End Role="ScheduledTaskStates" EntitySet="ScheduledTaskStates" />
+            <End Role="ScheduledTasks" EntitySet="ScheduledTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledTask_ScheduledTaskType" Association="Self.FK_ScheduledTask_ScheduledTaskType">
+            <End Role="ScheduledTaskTypes" EntitySet="ScheduledTaskTypes" />
+            <End Role="ScheduledTasks" EntitySet="ScheduledTasks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SchedulerDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SchedulerDBEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="DBVersion" EntityType="SchedulerDBModel.DBVersion" />
+          <EntitySet Name="ScheduledTaskStates1" EntityType="SchedulerDBModel.ScheduledTaskState" />
+          <EntitySet Name="ScheduledTaskTypes1" EntityType="SchedulerDBModel.ScheduledTaskType" />
+          <EntitySet Name="Users1" EntityType="SchedulerDBModel.User" />
+          <EntitySet Name="ScheduledTasks" EntityType="SchedulerDBModel.ScheduledTask" />
+          <AssociationSet Name="FK_ScheduledTask_ScheduledTaskState" Association="SchedulerDBModel.FK_ScheduledTask_ScheduledTaskState">
+            <End Role="ScheduledTaskState" EntitySet="ScheduledTaskStates1" />
+            <End Role="ScheduledTask" EntitySet="ScheduledTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledTask_ScheduledTaskType" Association="SchedulerDBModel.FK_ScheduledTask_ScheduledTaskType">
+            <End Role="ScheduledTaskType" EntitySet="ScheduledTaskTypes1" />
+            <End Role="ScheduledTask" EntitySet="ScheduledTasks" />
+          </AssociationSet>
+          <EntitySet Name="AnalysedDirectories" EntityType="SchedulerDBModel.AnalysedDirectory" />
+          <EntitySet Name="AnalyseTypes" EntityType="SchedulerDBModel.AnalyseType" />
+          <AssociationSet Name="FK_AnalizedDirectory_AnalizeType" Association="SchedulerDBModel.FK_AnalizedDirectory_AnalizeType">
+            <End Role="AnalyseType" EntitySet="AnalyseTypes" />
+            <End Role="AnalysedDirectory" EntitySet="AnalysedDirectories" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="DBVersion">
+          <Key>
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Version" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UpgradeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Comment" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ScheduledTaskState">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ScheduledTasks" Relationship="SchedulerDBModel.FK_ScheduledTask_ScheduledTaskState" FromRole="ScheduledTaskState" ToRole="ScheduledTask" />
+        </EntityType>
+        <EntityType Name="ScheduledTaskType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ScheduledTasks" Relationship="SchedulerDBModel.FK_ScheduledTask_ScheduledTaskType" FromRole="ScheduledTaskType" ToRole="ScheduledTask" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ScheduledTask">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlanedExecutionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="RelatedObjectId" Type="Int64" />
+          <Property Name="ScheduledTaskTypeId" Type="Int64" Nullable="false" />
+          <Property Name="ScheduledTaskStateId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ScheduledTaskState" Relationship="SchedulerDBModel.FK_ScheduledTask_ScheduledTaskState" FromRole="ScheduledTask" ToRole="ScheduledTaskState" />
+          <NavigationProperty Name="ScheduledTaskType" Relationship="SchedulerDBModel.FK_ScheduledTask_ScheduledTaskType" FromRole="ScheduledTask" ToRole="ScheduledTaskType" />
+        </EntityType>
+        <Association Name="FK_ScheduledTask_ScheduledTaskState">
+          <End Type="SchedulerDBModel.ScheduledTaskState" Role="ScheduledTaskState" Multiplicity="1" />
+          <End Type="SchedulerDBModel.ScheduledTask" Role="ScheduledTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledTaskState">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduledTask">
+              <PropertyRef Name="ScheduledTaskStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledTask_ScheduledTaskType">
+          <End Type="SchedulerDBModel.ScheduledTaskType" Role="ScheduledTaskType" Multiplicity="1" />
+          <End Type="SchedulerDBModel.ScheduledTask" Role="ScheduledTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledTaskType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduledTask">
+              <PropertyRef Name="ScheduledTaskTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AnalysedDirectory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Path" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AnalyseTypeId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="AnalyseType" Relationship="SchedulerDBModel.FK_AnalizedDirectory_AnalizeType" FromRole="AnalysedDirectory" ToRole="AnalyseType" />
+        </EntityType>
+        <EntityType Name="AnalyseType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AnalysedDirectories" Relationship="SchedulerDBModel.FK_AnalizedDirectory_AnalizeType" FromRole="AnalyseType" ToRole="AnalysedDirectory" />
+        </EntityType>
+        <Association Name="FK_AnalizedDirectory_AnalizeType">
+          <End Type="SchedulerDBModel.AnalyseType" Role="AnalyseType" Multiplicity="1" />
+          <End Type="SchedulerDBModel.AnalysedDirectory" Role="AnalysedDirectory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalyseType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AnalysedDirectory">
+              <PropertyRef Name="AnalyseTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SchedulerDBModelStoreContainer" CdmEntityContainer="SchedulerDBEntities" >
+          <EntitySetMapping Name="DBVersion">
+            <EntityTypeMapping TypeName="SchedulerDBModel.DBVersion">
+              <MappingFragment StoreEntitySet="DBVersion">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="UpgradeDate" ColumnName="UpgradeDate" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduledTaskStates1">
+            <EntityTypeMapping TypeName="SchedulerDBModel.ScheduledTaskState">
+              <MappingFragment StoreEntitySet="ScheduledTaskStates">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduledTaskTypes1">
+            <EntityTypeMapping TypeName="SchedulerDBModel.ScheduledTaskType">
+              <MappingFragment StoreEntitySet="ScheduledTaskTypes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users1">
+            <EntityTypeMapping TypeName="SchedulerDBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduledTasks">
+            <EntityTypeMapping TypeName="SchedulerDBModel.ScheduledTask">
+              <MappingFragment StoreEntitySet="ScheduledTasks">
+                <ScalarProperty Name="ScheduledTaskStateId" ColumnName="ScheduledTaskStateId" />
+                <ScalarProperty Name="ScheduledTaskTypeId" ColumnName="ScheduledTaskTypeId" />
+                <ScalarProperty Name="RelatedObjectId" ColumnName="RelatedObjectId" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="PlanedExecutionDate" ColumnName="PlanedExecutionDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysedDirectories">
+            <EntityTypeMapping TypeName="SchedulerDBModel.AnalysedDirectory">
+              <MappingFragment StoreEntitySet="AnalysedDirectory">
+                <ScalarProperty Name="AnalyseTypeId" ColumnName="AnalyseTypeId" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalyseTypes">
+            <EntityTypeMapping TypeName="SchedulerDBModel.AnalyseType">
+              <MappingFragment StoreEntitySet="AnalyseType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
