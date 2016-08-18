@@ -1,0 +1,10 @@
+--- Projekt Scheduler ---
+ 
+Celem projektu by³o stworzenie aplikacji umo¿liwaj¹cej proste wyznaczanie zadañ o okreœlonej porze.
+ 
+17.08.2016 - Aktualna wersja jest wci¹¿ w facie POC. 
+Powsta³a znaczna czeœæ niezbêdnej struktury. 
+Po stronie backendowej zosta³ zaimplementowane niezbêdne elementy do wyznaczniania zadañ.
+System zawiera m.in. obs³ugê maili.
+Zosta³y rozpoczêta tak¿e implementacja modu³u Cleanera.
+
